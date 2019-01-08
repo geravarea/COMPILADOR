@@ -34,7 +34,7 @@ public class Compilador2475 {
         System.out.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
 
         File entrada;
-        entrada = new File("entrada.txt");
+        entrada = new File("C:\\Users\\Gerardo Vargas\\Desktop\\NetBeans\\entrada.txt");
         //Se lee lo que contiene el archivo entrada.txt y se guarda en el String linea
         try {
             BufferedReader leer = new BufferedReader(new FileReader(entrada));
@@ -42,7 +42,7 @@ public class Compilador2475 {
 
             //usamos el metodo split para separar con tokens el contenido del String linea 
             String[] tokens = linea.split("[,\\s]+");
-            String sFichero = "salida.gera";
+            String sFichero = "C:\\Users\\Gerardo Vargas\\Desktop\\NetBeans\\salida.gera";
             File escritura = new File(sFichero);
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(sFichero))) {
                 bw.write("------------------------------------------------");
@@ -69,14 +69,14 @@ public class Compilador2475 {
                 //Expresion regular para numeros y decimales
                 String regex2 = ("^[0-9]*(\\.[0-9])?$+");
                 //Expresion regular para las variables
-                String regex3;
-                regex3 = ("[A-Z0-9]+");
+                String regex3 = ("[A-Z0-978]+");
+                 //Expresion regular para los textos
+                 String regex4 = ("\\'[a-zA-Z0-9]{0,100}'+");
                 //Este ciclo recorre los tokens uno por uno
-                 String regex4 = ("\\@[a-zA-Z0-9]+");
                 for (x = 0; x < tokens.length; x++) {
                     boolean bandera = false;
                     //Este siclo recorre todo el diccionario de simbolos
-                    for (i = 0; i < 26; i++) {
+                    for (i = 0; i < 33; i++) {
 
                         String regex = (diccionario.getValor(i));
 
@@ -90,31 +90,33 @@ public class Compilador2475 {
                     if (bandera == true) {
 
                         if (tokens[x].matches(regex2)) {
-                            System.out.println("Token: valor " + tokens[x]);
-                            bw.write("Token: valor " + tokens[x]);
+                            System.out.println("\033[35mToken: val " + tokens[x]);
+                            bw.write("Token: val " + tokens[x]);
                             bw.newLine();
 
-                        } else if (tokens[x].matches(regex3)) {
+                        }  else if (tokens[x].matches(regex3)) {
 
-                            System.out.println("Token: var " + tokens[x]);
+                            System.out.println("\033[33mToken: var " + tokens[x]);
                             bw.write("Token: var " + tokens[x]);
                             bw.newLine();
-                         } else if (tokens[x].matches(regex4)) {
+                            
+                        } 
+                        else if (tokens[x].matches(regex4)) {
 
-                            System.out.println("Token: text " + tokens[x]);
-                            bw.write("Token: txt " + tokens[x]);
+                            System.out.println("\033[36mToken: text " + tokens[x]);
+                            bw.write("Token: Text " + tokens[x]);
                             bw.newLine();
                         }
                         else {
-                            System.out.println("Token: " + tokens[x] + " = " + diccionario.getValor2(i));
+                            System.out.println("Token: " + tokens[x] + " -> " + diccionario.getValor2(i));
                             bw.write("Token: " + tokens[x] + " " + diccionario.getValor2(i));
                             bw.newLine();
                         }
 
                     } else {
 
-                        System.err.println("Error: la expresion " + "'" + tokens[x] + "'" + " no existe.");
-                        bw.write("Error: " + "(" + tokens[x] + ")" + " No existe en el diccionario.! ");
+                        System.err.println("\033[31mError: la expresion " + "'" + tokens[x] + "'" + " tiene un error de sintaxis!");
+                        bw.write("Error: " + "(" + tokens[x] + ")" + " tiene un error de sintaxis! ");
                         bw.newLine();
                     }
                 }
