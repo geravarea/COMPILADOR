@@ -42,7 +42,7 @@ public class Compilador2475 {
 
             //usamos el metodo split para separar con tokens el contenido del String linea 
             String[] tokens = linea.split("[,\\s]+");
-            String sFichero = "salida.txt";
+            String sFichero = "salida.gera";
             File escritura = new File(sFichero);
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(sFichero))) {
                 bw.write("------------------------------------------------");
@@ -69,8 +69,10 @@ public class Compilador2475 {
                 //Expresion regular para numeros y decimales
                 String regex2 = ("^[0-9]*(\\.[0-9])?$+");
                 //Expresion regular para las variables
-                String regex3 = ("[A-Z]+");
+                String regex3;
+                regex3 = ("[A-Z0-9]+");
                 //Este ciclo recorre los tokens uno por uno
+                 String regex4 = ("\\@[a-zA-Z0-9]+");
                 for (x = 0; x < tokens.length; x++) {
                     boolean bandera = false;
                     //Este siclo recorre todo el diccionario de simbolos
@@ -79,7 +81,7 @@ public class Compilador2475 {
                         String regex = (diccionario.getValor(i));
 
                         //si alguno de los tokens es igual a algun valor del diccionario
-                        if (tokens[x].equals(regex) || tokens[x].matches(regex2) || tokens[x].matches(regex3)) {
+                        if (tokens[x].equals(regex) || tokens[x].matches(regex2) || tokens[x].matches(regex3) || tokens[x].matches(regex4)) {
 
                             bandera = true;
                             break;
@@ -97,7 +99,13 @@ public class Compilador2475 {
                             System.out.println("Token: var " + tokens[x]);
                             bw.write("Token: var " + tokens[x]);
                             bw.newLine();
-                        } else {
+                         } else if (tokens[x].matches(regex4)) {
+
+                            System.out.println("Token: text " + tokens[x]);
+                            bw.write("Token: txt " + tokens[x]);
+                            bw.newLine();
+                        }
+                        else {
                             System.out.println("Token: " + tokens[x] + " = " + diccionario.getValor2(i));
                             bw.write("Token: " + tokens[x] + " " + diccionario.getValor2(i));
                             bw.newLine();
@@ -118,17 +126,5 @@ public class Compilador2475 {
 
 }
 
-            
-                   
-                }
-                
-           }catch (IOException ex){}
-             // TODO code application logic here 
-    }
-    
-}
-
-    
-   
     
 
